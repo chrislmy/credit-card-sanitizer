@@ -17,7 +17,7 @@ public class CardNumberSanitizer {
   public CardNumberSanitizer() {
     SanitizerConfig sanitizerConfig = SanitizerConfig.builder().build();
     this.sanitizerConfig = sanitizerConfig;
-    this.cardNumberProcessor = new CardNumberProcessor(sanitizerConfig.invalidSeparators());
+    this.cardNumberProcessor = new CardNumberProcessor();
   }
 
   public CardNumberSanitizer(SanitizerConfig sanitizerConfig) {
@@ -53,7 +53,7 @@ public class CardNumberSanitizer {
    * returning a list of matches.
    *
    * @param input
-   * @return Sanitized input and a list of matches in the form of a {@linkSanitizationResult}
+   * @return Sanitized input and a list of matches in the form of a {@link SanitizationResult}
    */
   public SanitizationResult deepSanitize(String input) {
     List<CardNumberMatch> fullCardNumberMatches = findMatches(input);
@@ -108,7 +108,11 @@ public class CardNumberSanitizer {
       validCardNumberMatch = cardNumberProcessor.findCardNumbers(input);
     } catch (PatternSyntaxException e) {
       String invalidSeparatorStr = Arrays.toString(sanitizerConfig.invalidSeparators());
-      String message = String.format("Invalid separators provided %s", invalidSeparatorStr);
+      StringBuilder builder = new StringBuilder(invalidSeparatorStr);
+      builder.setCharAt(0,'(');
+      builder.setCharAt(invalidSeparatorStr.length() - 1,')');
+      System.out.println(builder.toString());
+      String message = String.format("Invalid separators provided %s", builder.toString());
       throw new InvalidSeparatorsException(message);
     }
 

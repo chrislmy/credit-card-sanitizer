@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import io.github.chrislmy.cardsanitizer.domain.CardNumberMatch;
-import java.util.stream.Collectors;
-import org.apache.commons.validator.routines.checkdigit.LuhnCheckDigit;
+import io.github.chrislmy.cardsanitizer.validators.CardNumberValidator;
 
 public class CardNumberProcessor {
 
@@ -20,7 +20,7 @@ public class CardNumberProcessor {
   CardNumberProcessor() {
   }
 
-  public CardNumberProcessor(char[] invalidSeparators) {
+  CardNumberProcessor(char[] invalidSeparators) {
     this.invalidSeparatorRegex = generateInvalidSeparatorRegex(invalidSeparators);
   }
 
@@ -64,7 +64,7 @@ public class CardNumberProcessor {
 
   private boolean checkValidCreditCardNumber(CardNumberMatch cardNumber) {
     String cleanedCardNumber = removeSeparators(cardNumber.originalPayload());
-    return LuhnCheckDigit.LUHN_CHECK_DIGIT.isValid(cleanedCardNumber);
+    return CardNumberValidator.LUHN_VALIDATOR.isValid(cleanedCardNumber);
   }
 
   private Pattern generateCardNumberPattern(int cardNumberLength) {

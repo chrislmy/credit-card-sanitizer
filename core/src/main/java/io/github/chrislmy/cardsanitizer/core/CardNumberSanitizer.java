@@ -111,8 +111,7 @@ public class CardNumberSanitizer {
       StringBuilder builder = new StringBuilder(invalidSeparatorStr);
       builder.setCharAt(0,'(');
       builder.setCharAt(invalidSeparatorStr.length() - 1,')');
-      System.out.println(builder.toString());
-      String message = String.format("Invalid separators provided %s", builder.toString());
+      String message = String.format("Invalid separators provided: %s", builder.toString());
       throw new InvalidSeparatorsException(message);
     }
 

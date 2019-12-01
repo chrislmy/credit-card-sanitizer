@@ -15,7 +15,7 @@
   <dependencies>
     <dependency>
       <groupId>io.github.chrislmy</groupId>
-      <artifactId>credit-card-sanitizer</artifactId>
+      <artifactId>card-sanitizer</artifactId>
       <version>1.0.0</version>
       <scope>compile</scope>
     </dependency>

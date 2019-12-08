@@ -52,7 +52,7 @@ public class CardNumberSanitizer {
    * Performs full sanitization on an input string and masks all occurrences of card numbers and
    * returning a list of matches.
    *
-   * @param input
+   * @param input Input string to perform deep sanitization
    * @return Sanitized input and a list of matches in the form of a {@link SanitizationResult}
    */
   public SanitizationResult deepSanitize(String input) {

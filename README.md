@@ -1,4 +1,11 @@
 # Credit Card Sanitizer
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+A simple Java library that provides utility functions to prevent sensitive card numbers from being 
+unintentionally provided.
+
+## Overview
 Users of your application may enter sensitive information such as credit card numbers where they 
 shouldn't. If a credit card number is entered into a form on a website or an app, it may get stored 
 into a database or logged. This is likely undesirable for a business, since it can
@@ -12,22 +19,36 @@ checksum algorithm to verify if the found match is a valid credit card number. T
 are then 'masked' by replacing some or all of the digits with a replacement character. The library 
 also provide other useful utility functions when searching for occurrences of of credit card numbers.
 
+## Maven Installation
+```xml
+<dependency>
+  <groupId>com.github.chrislmy</groupId>
+  <artifactId>credit-card-sanitizer</artifactId>
+  <version>1.0.2</version>
+</dependency>
+```
+
 ## Usage
 #### Basic usage
 The `CardNumberSanitizer` class contains the utility functions to sanitize or search of occurrences 
 of card numbers. The most basic usage of the class is used as described below:
 
 ```java
+ String input = "Hi, my card is 4111 1111 1111 1111 maybe you should not store that in your database!";
  CardNumberSanitizer sanitizer = new CardNumberSanitizer();
  String output = sanitizer.sanitize(input);
+
+ // Output: Hi, my card is 411111XXXXXX1111 maybe you should not store that in your database!
 ```
 
+#### Custom config for sanitization
 You might have different requirements for performing the masking of these card numbers for example: 
 requiring a specific masking character, masking a specific part of the card number if not masking the 
 whole number. For this reason, the `CardNumberSanitizer` class also accepts a `SanitizerConfig` when 
 instantiated using the constructor. Below is an example usage:
 
 ```java
+ String input = "Hi, my card is 4111*1111*1111*1111 maybe you should not store that in your database!";
  SanitizerConfig config = SanitizerConfig.builder()
         .exposeFirst(0)
         .maskingCharacter('*')
@@ -35,9 +56,10 @@ instantiated using the constructor. Below is an example usage:
         .build();
  CardNumberSanitizer sanitizer = new CardNumberSanitizer(config);
  String output = sanitizer.sanitize(input);
+
+ // Output: Hi, my card is ************1111 maybe you should not store that in your database!
 ```
 
-#### Custom config for sanitization
 Below is a table describing the `SanitizerConfig` properties.
 
 Property                  | Description
@@ -103,6 +125,7 @@ when dealing with many and complicated invalid separators.
    ... Do something with the exception
  }
 ```
+Full java examples can be found [here](https://github.com/chrislmy/credit-card-sanitzer/tree/master/examples/src/main/java/com/github/chrislmy/examples).
 
 ## Contributing or raising issues
 If you find any issues when using this library please feel free to reach out to me at my email 

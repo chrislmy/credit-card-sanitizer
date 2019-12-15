@@ -1,6 +1,16 @@
 # Credit Card Sanitizer
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://travis-ci.com/chrislmy/credit-card-sanitzer.svg?branch=master)](https://travis-ci.com/chrislmy/credit-card-sanitzer)
+
+* [Overview](#overview)
+* [Maven installation](#maven-installation)
+* [Usage](#usage)
+  * [Basic Usage](#basic-usage)
+  * [Custom config for sanitization](#custom-config-for-sanitization)
+  * [Other Usage](#other-functions)
+  * [Error Handling](#error-handling)
+* [Contributing or raising issues](#contributing-or-raising-issues)
 
 A simple Java library that provides utility functions to prevent sensitive card numbers from being 
 unintentionally provided.
@@ -67,7 +77,7 @@ Property                  | Description
 `maskingCharacter`        | The character used to mask digits of the credit number.  The default is `X`.
 `exposeFirst`             | The number of leading digits of the credit card number to leave unmasked. The default is `6`.
 `exposeLast`              | The number of trailing digits of the credit card number to leave unmasked. The default is `4`.
-`invalidSeparators`       | An array of `charracters` which are considered invalid delimiters when searching of matches of card numbers in a string. The default is `-` (dashes) and whitespaces.
+`invalidSeparators`       | An array of `characters` which are considered invalid delimiters when searching of matches of card numbers in a string. The default is `-` (dashes) and whitespaces.
 
 
 #### Other functions

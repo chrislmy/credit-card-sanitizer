@@ -1,6 +1,7 @@
 package com.github.chrislmy.cardsanitizer.core;
 
 import com.github.chrislmy.cardsanitizer.domain.CardNumberMatch;
+import com.github.chrislmy.cardsanitizer.domain.SanitizerConfig;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -9,19 +10,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import com.github.chrislmy.cardsanitizer.validators.CardNumberValidator;
+import com.github.chrislmy.cardsanitizer.validators.LuhnValidator;
 
 public class CardNumberProcessor {
 
-  private String invalidSeparatorRegex = "[ -]";
-  private static final int cardNumberUpperBound = 19;
-  private static final int cardNumberLowerBound = 13;
+  private String invalidSeparatorRegex;
+  private int cardNumberUpperBound;
+  private int cardNumberLowerBound;
 
-  CardNumberProcessor() {
-  }
-
-  CardNumberProcessor(char[] invalidSeparators) {
-    this.invalidSeparatorRegex = generateInvalidSeparatorRegex(invalidSeparators);
+  CardNumberProcessor(SanitizerConfig config) {
+    this.invalidSeparatorRegex = generateInvalidSeparatorRegex(config.invalidSeparators());
+    this.cardNumberUpperBound = config.cardNumberUpperBound();
+    this.cardNumberLowerBound = config.cardNumberLowerBound();
   }
 
   /**
@@ -52,7 +52,7 @@ public class CardNumberProcessor {
    * @return Cleaned card number string
    */
   String removeSeparators(String cardNumber) {
-    return cardNumber.replaceAll(invalidSeparatorRegex + '+', "");
+    return cardNumber.replaceAll(invalidSeparatorRegex, "");
   }
 
   private List<CardNumberMatch> filterValidCreditCardNumbers(List<CardNumberMatch> cardNumbers) {
@@ -64,7 +64,7 @@ public class CardNumberProcessor {
 
   private boolean checkValidCreditCardNumber(CardNumberMatch cardNumber) {
     String cleanedCardNumber = removeSeparators(cardNumber.originalPayload());
-    return CardNumberValidator.LUHN_VALIDATOR.isValid(cleanedCardNumber);
+    return LuhnValidator.getInstance().isValid(cleanedCardNumber);
   }
 
   private Pattern generateCardNumberPattern(int cardNumberLength) {

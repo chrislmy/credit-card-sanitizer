@@ -5,7 +5,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class CardNumberValidatorTest {
+public class LuhnValidatorTest {
 
   @ParameterizedTest
   @ValueSource(strings = {
@@ -17,7 +17,7 @@ public class CardNumberValidatorTest {
       "4539006390521614"
   })
   void visaNumbersTest(String cardNumber) {
-    assertThat(CardNumberValidator.LUHN_VALIDATOR.isValid(cardNumber)).isTrue();
+    assertThat(LuhnValidator.getInstance().isValid(cardNumber)).isTrue();
   }
 
   @ParameterizedTest
@@ -29,7 +29,7 @@ public class CardNumberValidatorTest {
       "5435259792329167"
   })
   void masterCardNumbersTest(String cardNumber) {
-    assertThat(CardNumberValidator.LUHN_VALIDATOR.isValid(cardNumber)).isTrue();
+    assertThat(LuhnValidator.getInstance().isValid(cardNumber)).isTrue();
   }
 
   @ParameterizedTest
@@ -41,7 +41,7 @@ public class CardNumberValidatorTest {
       "6011720065410596"
   })
   void discoverCardNumbersTest(String cardNumber) {
-    assertThat(CardNumberValidator.LUHN_VALIDATOR.isValid(cardNumber)).isTrue();
+    assertThat(LuhnValidator.getInstance().isValid(cardNumber)).isTrue();
   }
 
   @ParameterizedTest
@@ -53,7 +53,7 @@ public class CardNumberValidatorTest {
       "371048174095570"
   })
   void amexCardNumbersTest(String cardNumber) {
-    assertThat(CardNumberValidator.LUHN_VALIDATOR.isValid(cardNumber)).isTrue();
+    assertThat(LuhnValidator.getInstance().isValid(cardNumber)).isTrue();
   }
 
   @ParameterizedTest
@@ -64,10 +64,10 @@ public class CardNumberValidatorTest {
       "6011000000000002",
       "30569309025902",
       "6011111111111116",
-      "3530111333300001",
-      "5555555555554442"
+      "35e0111e33300001",
+      "555F55F55C554442"
   })
   void invalidCardNumbersTest(String cardNumber) {
-    assertThat(CardNumberValidator.LUHN_VALIDATOR.isValid(cardNumber)).isFalse();
+    assertThat(LuhnValidator.getInstance().isValid(cardNumber)).isFalse();
   }
 }

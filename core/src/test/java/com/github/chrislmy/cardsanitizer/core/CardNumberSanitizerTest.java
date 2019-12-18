@@ -20,9 +20,73 @@ public class CardNumberSanitizerTest {
       "6011 - 4560 - 3929 - 1982",
   };
 
+  private CardNumberSanitizer sanitizer = new CardNumberSanitizer();
+  private SanitizerConfig config = SanitizerConfig.builder()
+      .maskingCharacter('*')
+      .exposeFirst(0)
+      .build();
+  private CardNumberSanitizer sanitizerWithConfig = new CardNumberSanitizer(config);
+
   @Test
-  void testDefaultCardNumberSanitizer() throws IOException {
-    CardNumberSanitizer sanitizer = new CardNumberSanitizer();
+  void testDefaultSanitizerOnBasicText() {
+    String input = "Hello my card is 4111 1111 1111 1111 and my birthday is 29/06/1996 "
+        + "maybe you should not store that in your database!";
+    String expectedOutput = "Hello my card is 411111XXXXXX1111 and my birthday is 29/06/1996 "
+        + "maybe you should not store that in your database!";
+
+    SanitizationResult output = sanitizer.deepSanitize((input));
+    assertThat(sanitizer.analyze(input)).isTrue();
+    assertThat(output.cardNumberMatches().size()).isEqualTo(1);
+    assertThat(output.cardNumberMatches().get(0).maskedPayload()).isEqualTo("411111XXXXXX1111");
+    assertThat(output.result()).isEqualTo(expectedOutput);
+  }
+
+  @Test
+  void testSanitizerWithConfigOnBasicText() {
+    String input = "Hello my card is 4111 1111 1111 1111 and my birthday is 29/06/1996 "
+        + "maybe you should not store that in your database!";
+    String expectedOutput = "Hello my card is ************1111 and my birthday is 29/06/1996 "
+        + "maybe you should not store that in your database!";
+
+    SanitizationResult output = sanitizerWithConfig.deepSanitize((input));
+    assertThat(sanitizerWithConfig.analyze(input)).isTrue();
+    assertThat(output.cardNumberMatches().size()).isEqualTo(1);
+    assertThat(output.cardNumberMatches().get(0).maskedPayload()).isEqualTo("************1111");
+    assertThat(output.result()).isEqualTo(expectedOutput);
+  }
+
+  @Test
+  void testDefaultSanitizerOnTextWithMultipleNumbers() {
+    String input = "Hello my card is 4111 - 1111 - 1111 - 1111 "
+        + "and 6011 - 4560 - 3929 - 1982 maybe you should not store that in your database!";
+    String expectedOutput = "Hello my card is 411111XXXXXX1111 "
+        + "and 601145XXXXXX1982 maybe you should not store that in your database!";
+
+    SanitizationResult output = sanitizer.deepSanitize((input));
+    assertThat(sanitizer.analyze(input)).isTrue();
+    assertThat(output.cardNumberMatches().size()).isEqualTo(2);
+    assertThat(output.cardNumberMatches().get(0).maskedPayload()).isEqualTo("411111XXXXXX1111");
+    assertThat(output.cardNumberMatches().get(1).maskedPayload()).isEqualTo("601145XXXXXX1982");
+    assertThat(output.result()).isEqualTo(expectedOutput);
+  }
+
+  @Test
+  void testDefaultSanitizerOnCardNumbersSideBySide() {
+    String input = "Hello my card is 4111-1111-1111-1111 "
+        + "6011-4560-3929-1982 maybe you should not store that in your database!";
+    String expectedOutput = "Hello my card is 411111XXXXXX1111 "
+        + "601145XXXXXX1982 maybe you should not store that in your database!";
+
+    SanitizationResult output = sanitizer.deepSanitize((input));
+    assertThat(sanitizer.analyze(input)).isTrue();
+    assertThat(output.cardNumberMatches().size()).isEqualTo(2);
+    assertThat(output.cardNumberMatches().get(0).maskedPayload()).isEqualTo("411111XXXXXX1111");
+    assertThat(output.cardNumberMatches().get(1).maskedPayload()).isEqualTo("601145XXXXXX1982");
+    assertThat(output.result()).isEqualTo(expectedOutput);
+  }
+
+  @Test
+  void testDefaultCardNumberSanitizerWithTextBlob() throws IOException {
     String input = new TextFileReader(pathToSampleFile).readFileAsString();
 
     SanitizationResult output = sanitizer.deepSanitize(injectCardNumbersToInput(input));
@@ -35,16 +99,11 @@ public class CardNumberSanitizerTest {
   }
 
   @Test
-  void testCardNumberSanitizerWithConfig() throws IOException {
-    SanitizerConfig config = SanitizerConfig.builder()
-        .maskingCharacter('*')
-        .exposeFirst(0)
-        .build();
-    CardNumberSanitizer sanitizer = new CardNumberSanitizer(config);
+  void testCardNumberSanitizerWithConfigWithTextBlob() throws IOException {
     String input = new TextFileReader(pathToSampleFile).readFileAsString();
 
-    SanitizationResult output = sanitizer.deepSanitize(injectCardNumbersToInput(input));
-    assertThat(sanitizer.analyze(injectCardNumbersToInput(input))).isTrue();
+    SanitizationResult output = sanitizerWithConfig.deepSanitize(injectCardNumbersToInput(input));
+    assertThat(sanitizerWithConfig.analyze(injectCardNumbersToInput(input))).isTrue();
     assertThat(output.cardNumberMatches().size()).isEqualTo(2);
     assertThat(output.cardNumberMatches().get(0).maskedPayload()).isEqualTo("************1111");
     assertThat(output.cardNumberMatches().get(1).maskedPayload()).isEqualTo("************1982");
@@ -54,7 +113,6 @@ public class CardNumberSanitizerTest {
 
   @Test
   void testCardNumberSanitizerOnStringWithoutCardNumbers() throws IOException {
-    CardNumberSanitizer sanitizer = new CardNumberSanitizer();
     String input = new TextFileReader(pathToSampleFileWithoutNumbers).readFileAsString();
 
     SanitizationResult output = sanitizer.deepSanitize(input);
@@ -65,14 +123,14 @@ public class CardNumberSanitizerTest {
 
   @Test
   void testInvalidSeparatorsException() throws IOException {
-    SanitizerConfig config = SanitizerConfig.builder()
+    SanitizerConfig invalidConfig = SanitizerConfig.builder()
         .invalidSeparators(new char[]{'*', '['})
         .build();
-    CardNumberSanitizer sanitizer = new CardNumberSanitizer(config);
+    CardNumberSanitizer invalidSanitizer = new CardNumberSanitizer(invalidConfig);
     String input = new TextFileReader(pathToSampleFileWithoutNumbers).readFileAsString();
 
     Assertions.assertThrows(InvalidSeparatorsException.class, () -> {
-      sanitizer.sanitize(input);
+      invalidSanitizer.sanitize(input);
     });
   }
 

@@ -15,14 +15,14 @@ public class CardNumberSanitizer {
   private CardNumberProcessor cardNumberProcessor;
 
   public CardNumberSanitizer() {
-    SanitizerConfig sanitizerConfig = SanitizerConfig.builder().build();
-    this.sanitizerConfig = sanitizerConfig;
-    this.cardNumberProcessor = new CardNumberProcessor();
+    SanitizerConfig defaultConfig = SanitizerConfig.builder().build();
+    this.sanitizerConfig = defaultConfig;
+    this.cardNumberProcessor = new CardNumberProcessor(defaultConfig);
   }
 
   public CardNumberSanitizer(SanitizerConfig sanitizerConfig) {
     this.sanitizerConfig = sanitizerConfig;
-    this.cardNumberProcessor = new CardNumberProcessor(sanitizerConfig.invalidSeparators());
+    this.cardNumberProcessor = new CardNumberProcessor(sanitizerConfig);
   }
 
   /**
@@ -45,7 +45,7 @@ public class CardNumberSanitizer {
    */
   public String sanitize(String input) {
     List<CardNumberMatch> validCardNumberMatches = getValidCardNumberMatches(input);
-    return performSanitization(new StringBuilder(input), validCardNumberMatches);
+    return performSanitization(input, validCardNumberMatches);
   }
 
   /**
@@ -57,7 +57,7 @@ public class CardNumberSanitizer {
    */
   public SanitizationResult deepSanitize(String input) {
     List<CardNumberMatch> fullCardNumberMatches = findMatches(input);
-    String sanitizedString = performSanitization(new StringBuilder(input), fullCardNumberMatches);
+    String sanitizedString = performSanitization(input, fullCardNumberMatches);
 
     return new SanitizationResult(fullCardNumberMatches, sanitizedString);
   }
@@ -79,14 +79,14 @@ public class CardNumberSanitizer {
     matches.forEach((match) -> match.setMaskedPayload(maskString(match.originalPayload())));
   }
 
-  private String performSanitization(StringBuilder outputStringBuilder,
-      List<CardNumberMatch> cardNumberMatches) {
+  private String performSanitization(String input, List<CardNumberMatch> cardNumberMatches) {
+
     for (CardNumberMatch match : cardNumberMatches) {
       String cardNumber = match.originalPayload();
-      outputStringBuilder.replace(match.startIndex(), match.endIndex(), maskString(cardNumber));
+      input = input.replace(cardNumber, maskString(cardNumber));
     }
 
-    return outputStringBuilder.toString();
+    return input;
   }
 
   private String maskString(String cardNumberMatch) {
@@ -109,8 +109,8 @@ public class CardNumberSanitizer {
     } catch (PatternSyntaxException e) {
       String invalidSeparatorStr = Arrays.toString(sanitizerConfig.invalidSeparators());
       StringBuilder builder = new StringBuilder(invalidSeparatorStr);
-      builder.setCharAt(0,'(');
-      builder.setCharAt(invalidSeparatorStr.length() - 1,')');
+      builder.setCharAt(0, '(');
+      builder.setCharAt(invalidSeparatorStr.length() - 1, ')');
       String message = String.format("Invalid separators provided: %s", builder.toString());
       throw new InvalidSeparatorsException(message);
     }

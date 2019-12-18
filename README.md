@@ -8,7 +8,8 @@
 * [Usage](#usage)
   * [Basic Usage](#basic-usage)
   * [Custom config for sanitization](#custom-config-for-sanitization)
-  * [Other Usage](#other-functions)
+  * [Length of card numbers](#length-of-card-numbers)
+  * [Other Functions](#other-functions)
   * [Error Handling](#error-handling)
 * [Contributing or raising issues](#contributing-or-raising-issues)
 
@@ -34,7 +35,7 @@ also provide other useful utility functions when searching for occurrences of of
 <dependency>
   <groupId>com.github.chrislmy</groupId>
   <artifactId>credit-card-sanitizer</artifactId>
-  <version>1.0.2</version>
+  <version>1.0.3</version>
 </dependency>
 ```
 
@@ -78,7 +79,18 @@ Property                  | Description
 `exposeFirst`             | The number of leading digits of the credit card number to leave unmasked. The default is `6`.
 `exposeLast`              | The number of trailing digits of the credit card number to leave unmasked. The default is `4`.
 `invalidSeparators`       | An array of `characters` which are considered invalid delimiters when searching of matches of card numbers in a string. The default is `-` (dashes) and whitespaces.
+`cardNumberUpperBound`    | The upper boundary of card number digits when the sanitizer searches for card numbers. The default is `16`.
+`cardNumberLowerBound`    | The lower boundary of card number digits when the sanitizer searches for card numbers.  The default is `15`.
 
+#### Length of card numbers
+The `cardNumberUpperBound` and `cardNumberLowerBound` can be used to search for card numbers with 
+the number of digits you desire. **The default upper bound is 16 and the default lower bound is 15**. 
+This is because major card issuers such as VISA and Mastercard produce cards which are 16 digits 
+with the exception of AMEX which are 15 digits. More info about the different type of card numbers can 
+be found [here](https://en.wikipedia.org/wiki/Payment_card_number).
+
+**Note: It is encouraged to narrow the boundary between the upper bound and lower bound where possible.
+A higher gap between boundaries could potentially lead to some false positives.** 
 
 #### Other functions
 The `CardNumberSanitizer` class contains an `analyze` method which performs a light weight analysis 

@@ -3,6 +3,8 @@
 *.gradle        text diff=java
 *.gradle.kts    text diff=java
 
+site/* linguist-documentation
+
 # These files are text and should be normalized (Convert crlf => lf)
 *.css           text diff=css
 *.df            text

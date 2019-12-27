@@ -4,5 +4,3 @@ target/
 *.iml
 .DS_STORE
 logs/
-
-.vscode

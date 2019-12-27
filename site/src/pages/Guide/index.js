@@ -6,6 +6,7 @@ import Divider from '../../components/Divider';
 import OtherFunctions from '../../components/OtherFunctions';
 import ErrorHandling from '../../components/ErrorHandling';
 import ExternalLink from '../../components/ExternalLink';
+import QuickStart from '../../components/QuickStart';
 
 const useStyles = makeStyles(theme => ({
   title: {
@@ -21,6 +22,7 @@ const Guide = () => {
 
   return (
     <Container>
+      <QuickStart/>
       <SanitizationConfig />
       <Typography className={classes.title} variant="h3">
         Length of card numbers

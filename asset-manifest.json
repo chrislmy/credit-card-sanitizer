@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/credit-card-sanitizer/static/css/main.b689435b.chunk.css",
-    "main.js": "/credit-card-sanitizer/static/js/main.9a2f51e5.chunk.js",
-    "main.js.map": "/credit-card-sanitizer/static/js/main.9a2f51e5.chunk.js.map",
+    "main.js": "/credit-card-sanitizer/static/js/main.4f297130.chunk.js",
+    "main.js.map": "/credit-card-sanitizer/static/js/main.4f297130.chunk.js.map",
     "runtime-main.js": "/credit-card-sanitizer/static/js/runtime-main.8de83e4b.js",
     "runtime-main.js.map": "/credit-card-sanitizer/static/js/runtime-main.8de83e4b.js.map",
     "static/js/2.2af0fbd9.chunk.js": "/credit-card-sanitizer/static/js/2.2af0fbd9.chunk.js",
     "static/js/2.2af0fbd9.chunk.js.map": "/credit-card-sanitizer/static/js/2.2af0fbd9.chunk.js.map",
     "index.html": "/credit-card-sanitizer/index.html",
-    "precache-manifest.26b5b33b45ae7cf4382df86267f53319.js": "/credit-card-sanitizer/precache-manifest.26b5b33b45ae7cf4382df86267f53319.js",
+    "precache-manifest.119cddc4a10572f4dfc8a0e47fadc3f0.js": "/credit-card-sanitizer/precache-manifest.119cddc4a10572f4dfc8a0e47fadc3f0.js",
     "service-worker.js": "/credit-card-sanitizer/service-worker.js",
     "static/css/main.b689435b.chunk.css.map": "/credit-card-sanitizer/static/css/main.b689435b.chunk.css.map",
     "static/js/2.2af0fbd9.chunk.js.LICENSE": "/credit-card-sanitizer/static/js/2.2af0fbd9.chunk.js.LICENSE"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.8de83e4b.js",
     "static/js/2.2af0fbd9.chunk.js",
     "static/css/main.b689435b.chunk.css",
-    "static/js/main.9a2f51e5.chunk.js"
+    "static/js/main.4f297130.chunk.js"
   ]
 }

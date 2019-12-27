@@ -9,7 +9,7 @@ const BADGE_TYPE = {
 const typeMapping = {
   [BADGE_TYPE.travis]: {
     href: 'https://travis-ci.com/chrislmy/credit-card-sanitzer',
-    imgSrc: 'https://travis-ci.com/chrislmy/credit-card-sanitzer.svg?branch=master'
+    imgSrc: 'https://travis-ci.com/chrislmy/credit-card-sanitizer.svg?branch=master'
   },
   [BADGE_TYPE.license]: {
     href: 'https://opensource.org/licenses/MIT',

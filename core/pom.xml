@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.github.chrislmy</groupId>
-  <version>1.0.3</version>
+  <version>1.1.0</version>
   <artifactId>credit-card-sanitizer</artifactId>
   <packaging>jar</packaging>
 
@@ -14,7 +14,7 @@
     A simple Java library that provides utility functions to prevent sensitive card numbers from being
     unintentionally provided.
   </description>
-  <url>https://github.com/chrislmy/credit-card-sanitzer</url>
+  <url>https://github.com/chrislmy/credit-card-sanitizer</url>
 
   <licenses>
     <license>
@@ -33,9 +33,9 @@
   </developers>
 
   <scm>
-    <connection>scm:git:git://github.com/chrislmy/credit-card-sanitzer.git</connection>
-    <developerConnection>scm:git:ssh://github.com/chrislmy/credit-card-sanitzer.git</developerConnection>
-    <url>https://github.com/chrislmy/credit-card-sanitzer</url>
+    <connection>scm:git:git://github.com/chrislmy/credit-card-sanitizer.git</connection>
+    <developerConnection>scm:git:ssh://github.com/chrislmy/credit-card-sanitizer.git</developerConnection>
+    <url>https://github.com/chrislmy/credit-card-sanitizer</url>
   </scm>
 
   <distributionManagement>

@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from '../../logo.png';
 import { Typography, makeStyles, AppBar, Toolbar, Button, IconButton } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import Container from '../Container';
@@ -7,9 +8,12 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
+  logo: {
+    height: '2rem'
+  },
   logoText: {
     [theme.breakpoints.down('sm')]: {
-      fontSize: '0.6em',
+      fontSize: '0.8em',
     }
   },
   navbarButtons: {
@@ -40,11 +44,15 @@ const Navbar = () => {
         <Container>
           <Toolbar className={classes.toolbar}>
             <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-              <Typography className={classes.logoText} variant="h4">
+              <Link className={classes.link} to={homePath}>
+                <img className={classes.logo} src={logo} alt="logo"/>
+              </Link>
+            </IconButton>
+            <span className={classes.spacing}>
+              <Typography className={classes.logoText} variant="h3">
                 <Link className={classes.link} to={homePath}>Credit Card Sanitizer</Link>
               </Typography>
-            </IconButton>
-            <span className={classes.spacing}></span>
+            </span>
             <Button className={classes.navbarButtons} color="inherit"><Link className={classes.link} to={homePath}>Home</Link></Button>
             <Button className={classes.navbarButtons} color="inherit"><Link className={classes.link} to={guidePath}>Guide</Link></Button>
           </Toolbar>

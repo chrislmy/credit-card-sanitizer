@@ -11,8 +11,8 @@ import java.util.regex.PatternSyntaxException;
 
 public class CardNumberSanitizer {
 
-  private SanitizerConfig sanitizerConfig;
-  private CardNumberProcessor cardNumberProcessor;
+  private final SanitizerConfig sanitizerConfig;
+  private final CardNumberProcessor cardNumberProcessor;
 
   public CardNumberSanitizer() {
     SanitizerConfig defaultConfig = SanitizerConfig.builder().build();

@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.github.chrislmy</groupId>
-  <version>1.1.0</version>
+  <version>1.1.2</version>
   <artifactId>credit-card-sanitizer</artifactId>
   <packaging>jar</packaging>
 

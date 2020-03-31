@@ -12,6 +12,7 @@ import testutils.TextFileReader;
 
 public class CardNumberSanitizerTest {
 
+  private static final String emptyString = "";
   private static final String pathToSampleFile = "src/test/resources/samples/text-with-numbers.txt";
   private static final String pathToSampleFileWithoutNumbers
       = "src/test/resources/samples/text-without-numbers.txt";
@@ -119,6 +120,15 @@ public class CardNumberSanitizerTest {
     assertThat(sanitizer.analyze(input)).isFalse();
     assertThat(output.cardNumberMatches().size()).isEqualTo(0);
     assertThat(output.result()).isEqualTo(input);
+  }
+
+  @Test
+  void testSanitizerOnNullInput() {
+    SanitizationResult output = sanitizer.deepSanitize((null));
+    assertThat(sanitizer.analyze(null)).isFalse();
+    assertThat(sanitizer.sanitize(null)).isEqualTo(emptyString);
+    assertThat(output.cardNumberMatches().isEmpty()).isTrue();
+    assertThat(output.result()).isEqualTo(emptyString);
   }
 
   @Test

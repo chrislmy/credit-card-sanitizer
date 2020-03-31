@@ -6,11 +6,13 @@ import com.github.chrislmy.cardsanitizer.domain.SanitizerConfig;
 import com.github.chrislmy.cardsanitizer.exceptions.InvalidSeparatorsException;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.PatternSyntaxException;
 
 public class CardNumberSanitizer {
 
+  private static final String EMPTY_STRING = "";
   private final SanitizerConfig sanitizerConfig;
   private final CardNumberProcessor cardNumberProcessor;
 
@@ -33,6 +35,10 @@ public class CardNumberSanitizer {
    * @return Boolean indicating if card numbers are found in an input string.
    */
   public boolean analyze(String input) {
+    if (input == null) {
+      return false;
+    }
+
     List<CardNumberMatch> validCardNumberMatches = cardNumberProcessor.findCardNumbers(input);
     return !validCardNumberMatches.isEmpty();
   }
@@ -44,6 +50,10 @@ public class CardNumberSanitizer {
    * @return Sanitized input
    */
   public String sanitize(String input) {
+    if (input == null) {
+      return EMPTY_STRING;
+    }
+
     List<CardNumberMatch> validCardNumberMatches = getValidCardNumberMatches(input);
     return performSanitization(input, validCardNumberMatches);
   }
@@ -56,9 +66,12 @@ public class CardNumberSanitizer {
    * @return Sanitized input and a list of matches in the form of a {@link SanitizationResult}
    */
   public SanitizationResult deepSanitize(String input) {
+    if (input == null) {
+      return new SanitizationResult(Collections.emptyList(), EMPTY_STRING);
+    }
+
     List<CardNumberMatch> fullCardNumberMatches = findMatches(input);
     String sanitizedString = performSanitization(input, fullCardNumberMatches);
-
     return new SanitizationResult(fullCardNumberMatches, sanitizedString);
   }
 
@@ -69,9 +82,12 @@ public class CardNumberSanitizer {
    * @return List of {@link CardNumberMatch}
    */
   public List<CardNumberMatch> findMatches(String input) {
+    if (input == null) {
+      return Collections.emptyList();
+    }
+
     List<CardNumberMatch> validCardNumberMatches = getValidCardNumberMatches(input);
     constructFullCardNumberMatches(validCardNumberMatches);
-
     return validCardNumberMatches;
   }
 
@@ -80,7 +96,6 @@ public class CardNumberSanitizer {
   }
 
   private String performSanitization(String input, List<CardNumberMatch> cardNumberMatches) {
-
     for (CardNumberMatch match : cardNumberMatches) {
       String cardNumber = match.originalPayload();
       input = input.replace(cardNumber, maskString(cardNumber));

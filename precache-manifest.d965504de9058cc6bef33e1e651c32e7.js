@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "df2dd7507c6deaae5f81f737e8b0aa14",
+    "revision": "87f372f1cfe26c495acbb4c8d8f787f1",
     "url": "/credit-card-sanitizer/index.html"
   },
   {
-    "revision": "ec712dbf9c57230572bd",
+    "revision": "426123dfd571b2e89b62",
     "url": "/credit-card-sanitizer/static/css/main.685dea8f.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/credit-card-sanitizer/static/js/2.e3643c97.chunk.js.LICENSE"
   },
   {
-    "revision": "ec712dbf9c57230572bd",
-    "url": "/credit-card-sanitizer/static/js/main.174fcb25.chunk.js"
+    "revision": "426123dfd571b2e89b62",
+    "url": "/credit-card-sanitizer/static/js/main.9a5f5915.chunk.js"
   },
   {
     "revision": "d9e65f36afc79c06125b",

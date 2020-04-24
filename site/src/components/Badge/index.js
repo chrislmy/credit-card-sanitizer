@@ -8,7 +8,7 @@ const BADGE_TYPE = {
 
 const typeMapping = {
   [BADGE_TYPE.travis]: {
-    href: 'https://travis-ci.com/chrislmy/credit-card-sanitzer',
+    href: 'https://travis-ci.com/chrislmy/credit-card-sanitizer',
     imgSrc: 'https://travis-ci.com/chrislmy/credit-card-sanitizer.svg?branch=master'
   },
   [BADGE_TYPE.license]: {

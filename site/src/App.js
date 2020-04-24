@@ -4,14 +4,18 @@ import Home from './pages/Home/index';
 import Footer from './components/Footer';
 import Hero from './components/Hero';
 import Guide from './pages/Guide';
+import TryItYourself from './pages/TryItYourself';
 import Navbar from './components/Navbar';
 
 const routes = () => (
   <Switch>
-    <Route path={`${process.env.PUBLIC_URL}/guide`}>
+    <Route path="/guide">
       <Guide />
     </Route>
-    <Route path={`${process.env.PUBLIC_URL}/`}>
+    <Route path="/try-it-yourself">
+      <TryItYourself />
+    </Route>
+    <Route path="/">
       <Home />
     </Route>
   </Switch>
